@@ -1,0 +1,5 @@
+transformers
+fastapi
+torch
+uvicorn
+pydantic-settings
