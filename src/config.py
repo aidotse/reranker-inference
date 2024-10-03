@@ -5,7 +5,7 @@ from pydantic_settings import BaseSettings
 
 class Config(BaseSettings):
     reranker_model_name: str = "BAAI/bge-reranker-v2-m3"
-    dev_mode: bool = False
+    api_key: str | None = None
 
 
 def get_log_config(level: str = "INFO"):
