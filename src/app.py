@@ -5,7 +5,7 @@ import uvicorn
 from config import Config, get_log_config
 from fastapi import Depends, FastAPI, HTTPException, Request, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from inference import SimilarityClassifierModel
+from inference import SimilarityClassifierLLM, SimilarityClassifierModel
 from models import PredictRequestModel, PredictResponseModel
 
 
@@ -14,10 +14,14 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     """Setup and teardown events of the app"""
     # Setup
     config = Config()
-    app.state.model = SimilarityClassifierModel(
-        model_name=config.reranker_model_name,
-        trust_remote_code=config.trust_remote_code,
-    )
+    if config.reranker_type == "CrossEncoder":
+        SimilarityClassifier = SimilarityClassifierModel
+    elif config.reranker_type == "LLM":
+        SimilarityClassifier = SimilarityClassifierLLM
+    else:
+        raise ValueError(f"No reranker type '{config.reranker_type}'")
+
+    app.state.model = SimilarityClassifier(model_name=config.reranker_model_name)
     app.state.api_key = config.api_key
     yield
     # Teardown

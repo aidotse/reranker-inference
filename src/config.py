@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Literal
 
 from pydantic_settings import BaseSettings
 
@@ -7,6 +8,7 @@ class Config(BaseSettings):
     reranker_model_name: str = "BAAI/bge-reranker-v2-m3"
     api_key: str | None = None
     trust_remote_code: bool = False
+    reranker_type: Literal["CrossEncoder", "LLM"] = "CrossEncoder"
 
 
 def get_log_config(level: str = "INFO"):
