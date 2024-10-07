@@ -14,7 +14,10 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     """Setup and teardown events of the app"""
     # Setup
     config = Config()
-    app.state.model = SimilarityClassifierModel(model_name=config.reranker_model_name)
+    app.state.model = SimilarityClassifierModel(
+        model_name=config.reranker_model_name,
+        trust_remote_code=config.trust_remote_code,
+    )
     app.state.api_key = config.api_key
     yield
     # Teardown

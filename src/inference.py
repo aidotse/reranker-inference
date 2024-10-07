@@ -10,10 +10,16 @@ logger = logging.getLogger(__name__)
 
 
 class SimilarityClassifierModel:
-    def __init__(self, model_name: str) -> None:
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir=CACHE_DIR)
+    def __init__(self, model_name: str, trust_remote_code: bool = False) -> None:
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            model_name,
+            cache_dir=CACHE_DIR,
+            trust_remote_code=trust_remote_code,
+        )
         self.model = AutoModelForSequenceClassification.from_pretrained(
-            model_name, cache_dir=CACHE_DIR
+            model_name,
+            cache_dir=CACHE_DIR,
+            trust_remote_code=trust_remote_code,
         )
 
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
