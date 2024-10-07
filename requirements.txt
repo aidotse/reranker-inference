@@ -1,5 +1,5 @@
-transformers
-fastapi
-torch
-uvicorn
-pydantic-settings
+transformers==4.45.1
+fastapi==0.115.0
+torch==2.4.1
+uvicorn==0.31.0
+pydantic-settings==2.5.2
